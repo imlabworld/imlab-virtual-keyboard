@@ -60,9 +60,17 @@ const App = () => {
 
   const onChangeInput = event => {
     const input = event.target.value;
-
     setInput(event.target.value);
     if (keyboard?.current) keyboard?.current?.setInput(input);
+  };
+
+  const displayName = {
+    '{bksp}': '←',
+    '{shift}': 'Shift',
+    '{language}': '한/영',
+    '{enter}': 'Enter',
+    '{space}': ' ',
+    '{tab}': 'Tab',
   };
 
   return (
@@ -81,9 +89,13 @@ const App = () => {
           layoutName={layout}
           language={language}
           buttonTheme={buttonTheme}
-          newLineOnEnter
+          display={displayName}
           physicalKeyboardHighlight
-          debug
+          syncInstanceInputs
+          tabCharOnTab={false} // tab 시 간격 처리
+          newLineOnEnter={false} // enter 시 줄 바꿈
+          // maxLength={12} // 최대 길이 제한
+          debug={false}
         />
       </div>
     </section>
