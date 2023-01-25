@@ -46,6 +46,12 @@
     "react/jsx-props-no-spreading": "off",
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    "no-restricted-syntax": "off",
+    "consistent-return": "off",
+    "no-lonely-if": "off",
+    "prefer-destructuring": "warn"
   }
 }
