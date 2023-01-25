@@ -8,6 +8,7 @@ import ReactKeyboard from './components/ReactKeyboard/ReactKeyboard';
 const buttonArray: Array<string> = [];
 let inputText = '';
 
+// Keyboard Layout Customization
 const layout = {
   english: {
     default: [
@@ -51,7 +52,6 @@ const App = () => {
   const keyboard = useRef<KeyboardReactInterface | null>(null);
 
   const onChange = (syllable: string) => {
-    console.log('syllable', syllable); // debugging PASS
     setInput(syllable);
   };
 
@@ -87,7 +87,6 @@ const App = () => {
     }
 
     inputText = Hangul.assemble(buttonArray);
-    console.log(inputText);
 
     if (button === '{shift}') handleShiftButton();
     if (button === '{language}') handleLanguageButton();
@@ -95,8 +94,6 @@ const App = () => {
 
   const onChangeInput: React.ChangeEventHandler<HTMLInputElement> = event => {
     const text = event.target.value;
-    console.log('text', text);
-    console.log('event', event);
     setInput(event.target.value);
     if (keyboard?.current) keyboard?.current?.setInput(text);
   };
