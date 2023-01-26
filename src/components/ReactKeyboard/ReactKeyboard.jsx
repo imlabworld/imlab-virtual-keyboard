@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import 'hangul-virtual-keyboard/build/css/index.css';
 import { useEffect, useRef } from 'react';
 import { changedProps, parseProps } from '../../lib/utils';
 import Keyboard from '../Keyboard/Keyboard';

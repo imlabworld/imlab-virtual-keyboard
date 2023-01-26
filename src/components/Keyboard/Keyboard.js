@@ -1,5 +1,3 @@
-import './Keyboard.css';
-
 // Services
 import { getKoreanLayout, getEnglishLayout } from '../../services/getLayout';
 import PhysicalKeyboard from '../../services/PhysicalKeyboard';

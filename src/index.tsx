@@ -1,9 +1,3 @@
-import App from 'App';
-import ReactDOM from 'react-dom/client';
-import 'styles/global.css';
+import Keyboard from './components/Keyboard';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
-
-root.render(<App />);
+export default Keyboard;
