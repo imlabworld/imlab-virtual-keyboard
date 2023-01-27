@@ -4,9 +4,6 @@
     "es2021": true
   },
   "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -52,6 +49,9 @@
     "no-restricted-syntax": "off",
     "consistent-return": "off",
     "no-lonely-if": "off",
-    "prefer-destructuring": "warn"
+    "prefer-destructuring": "off",
+    "react/destructuring-assignment": "off",
+    "no-explicit-any": "off",
+    "react/prop-types": "off"
   }
 }
