@@ -1,27 +1,23 @@
-/* eslint-disable no-return-assign */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Hangul from 'hangul-js';
 import { useRef, useState } from 'react';
-import { KeyboardReactInterface } from 'react-simple-keyboard';
+import { KeyboardOptions, KeyboardReactInterface } from '../lib/@types';
 import ReactKeyboard from './ReactKeyboard/ReactKeyboard';
 
 const buttonArray: Array<string> = [];
 let inputText = '';
 
-type Props = {
-  layout?: {
-    english: {
-      default: string[];
-      shift: string[];
-    };
-    korean: {
-      default: string[];
-      shift: string[];
-    };
-  };
-};
+interface CustomKeyboardOptions extends KeyboardOptions {
+  getText: (text: string) => void;
+}
 
-const Keyboard = ({ layout }: Props) => {
+const Keyboard = ({
+  layout,
+  display,
+  tabCharOnTab,
+  newLineOnEnter,
+  debug,
+  getText,
+}: CustomKeyboardOptions) => {
   const [input, setInput] = useState<string>();
   const [layoutName, setLayoutName] = useState<string>('default');
   const [language, setLanguage] = useState<string>('default');
@@ -64,18 +60,13 @@ const Keyboard = ({ layout }: Props) => {
     }
 
     inputText = Hangul.assemble(buttonArray);
+    getText(inputText);
 
     if (button === '{shift}') handleShiftButton();
     if (button === '{language}') handleLanguageButton();
   };
 
-  const onChangeInput: React.ChangeEventHandler<HTMLInputElement> = event => {
-    const text = event.target.value;
-    setInput(event.target.value);
-    if (keyboard?.current) keyboard?.current?.setInput(text);
-  };
-
-  const displayName = {
+  const defaultDisplay = {
     '{bksp}': '←',
     '{shift}': 'Shift',
     '{language}': '한/영',
@@ -84,63 +75,57 @@ const Keyboard = ({ layout }: Props) => {
     '{tab}': 'Tab',
   };
 
+  const defaultLayout = {
+    english: {
+      default: [
+        '1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+        'q w e r t y u i o p',
+        'a s d f g h j k l {enter}',
+        '{shift} z x c v b n m {language}',
+        '.com @ {space}',
+      ],
+      shift: [
+        '1 2 3 4 5 6 7 8 9 0 _ + {bksp}',
+        'Q W E R T Y U I O P ',
+        'A S D F G H J K L {enter}',
+        '{shift} Z X C V B N M {language}',
+        '.com @ {space}',
+      ],
+    },
+    korean: {
+      default: [
+        '1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+        'ㅂ ㅈ ㄷ ㄱ ㅅ ㅛ ㅕ ㅑ ㅐ ㅔ',
+        'ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ {enter}',
+        '{shift} ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ {language}',
+        '.com @ {space}',
+      ],
+      shift: [
+        '1 2 3 4 5 6 7 8 9 0 _ + {bksp}',
+        'ㅃ ㅉ ㄸ ㄲ ㅆ ㅛ ㅕ ㅑ ㅒ ㅖ',
+        'ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ {enter}',
+        '{shift} ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ {language}',
+        '.com @ {space}',
+      ],
+    },
+  };
+
   return (
-    <div>
-      <input value={inputText} onChange={onChangeInput} />
-      <ReactKeyboard
-        stateToIgnore={input}
-        // @ts-ignore
-        keyboardRef={r => (keyboard.current = r)}
-        onChange={onChange}
-        onKeyPress={onKeyPress}
-        layout={
-          layout || {
-            english: {
-              default: [
-                '1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-                'q w e r t y u i o p',
-                'a s d f g h j k l {enter}',
-                '{shift} z x c v b n m {language}',
-                '.com @ {space}',
-              ],
-              shift: [
-                '1 2 3 4 5 6 7 8 9 0 _ + {bksp}',
-                'Q W E R T Y U I O P ',
-                'A S D F G H J K L {enter}',
-                '{shift} Z X C V B N M {language}',
-                '.com @ {space}',
-              ],
-            },
-            korean: {
-              default: [
-                '1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-                'ㅂ ㅈ ㄷ ㄱ ㅅ ㅛ ㅕ ㅑ ㅐ ㅔ',
-                'ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ {enter}',
-                '{shift} ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ {language}',
-                '.com @ {space}',
-              ],
-              shift: [
-                '1 2 3 4 5 6 7 8 9 0 _ + {bksp}',
-                'ㅃ ㅉ ㄸ ㄲ ㅆ ㅛ ㅕ ㅑ ㅒ ㅖ',
-                'ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ {enter}',
-                '{shift} ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ {language}',
-                '.com @ {space}',
-              ],
-            },
-          }
-        }
-        layoutName={layoutName}
-        language={language}
-        buttonTheme={buttonTheme}
-        display={displayName}
-        physicalKeyboardHighlight
-        syncInstanceInputs
-        tabCharOnTab={false} // tab 시 간격 처리
-        newLineOnEnter={false} // enter 시 줄 바꿈
-        // maxLength={12} // 최대 길이 제한
-        debug={false} // debug mode
-      />
-    </div>
+    <ReactKeyboard
+      stateToIgnore={input}
+      keyboardRef={(r: any) => (keyboard.current = r)}
+      onChange={onChange}
+      onKeyPress={onKeyPress}
+      layout={layout || defaultLayout}
+      display={display || defaultDisplay}
+      layoutName={layoutName}
+      language={language}
+      buttonTheme={buttonTheme}
+      physicalKeyboardHighlight
+      tabCharOnTab={tabCharOnTab} // tab 시 간격 처리
+      newLineOnEnter={newLineOnEnter} // enter 시 줄 바꿈
+      debug={debug} // debug mode
+    />
   );
 };
 

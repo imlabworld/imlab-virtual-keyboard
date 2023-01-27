@@ -1,5 +1,5 @@
 // Services
-import { getKoreanLayout, getEnglishLayout } from '../../services/getLayout';
+import { getLayout } from '../../services/getLayout';
 import PhysicalKeyboard from '../../services/PhysicalKeyboard';
 import Utilities from '../../services/Utilities';
 
@@ -1237,8 +1237,8 @@ class SimpleKeyboard {
     const layoutClass = `hg-layout-${this.options.layoutName}`;
     const layout =
       this.options.language === 'default'
-        ? this.options.layout?.korean || getKoreanLayout()
-        : this.options.layout?.english || getEnglishLayout();
+        ? this.options.layout?.korean || getLayout().korean
+        : this.options.layout?.english || getLayout().english;
     const useTouchEvents = this.options.useTouchEvents || false;
     const useTouchEventsClass = useTouchEvents ? 'hg-touch-events' : '';
     const useMouseEvents = this.options.useMouseEvents || false;
