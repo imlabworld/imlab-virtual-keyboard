@@ -1,14 +1,38 @@
-# React Virtual Hangul Keyboard
+# React Hangul Keyboard
 
 `react-simple-keyboard` 라이브러리가 한글을 정상적으로 지원하지 않기 때문에 `hangul.js` 라이브러리의 `assemble`를 활용하여 한글의 받침 이슈를 처리하는 `hangul-virtual-keyboard` 라이브러리를 기반으로 레이아웃 커스텀 기능과 타입을 추가했습니다.
 
-# install
+## Install
 
 ```
-npm install imlab-virtual-hangul-keyboard
+npm install react-hangul-keyboard
 ```
 
-# CSS 적용
+## Usage
+
+```typescript
+import { useState } from 'react';
+import Keyboard from 'react-hangul-keyboard';
+
+const VirtualKeyboard = () => {
+  const [text, setText] = useState<string>();
+
+  const getText = (text: string) => {
+    setText(text);
+  };
+
+  return (
+    <div>
+      <p>{text}</p>
+      <Keyboard getText={getText} />
+    </div>
+  );
+};
+
+export default VirtualKeyboard;
+```
+
+## CSS Styling
 
 `global.css`에 반드시 다음 내용을 포함해야 합니다.
 
