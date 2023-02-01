@@ -5,7 +5,7 @@
 ## Install
 
 ```
-npm install react-hangul-keyboard
+npm install @dev_imlab/react-hangul-keyboard
 ```
 
 ## Usage
