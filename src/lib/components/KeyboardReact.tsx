@@ -32,6 +32,7 @@ const KeyboardReact = (props: KeyboardReactInterface['options']) => {
       ) as KeyboardReactInterface;
 
       parsedProps.keyboardRef && parsedProps.keyboardRef(keyboardRef.current);
+      keyboardRef.current.setInput(props.defaultValue);
     }
 
     const updatedProps = changedProps(previousProps.current, parsedProps);
