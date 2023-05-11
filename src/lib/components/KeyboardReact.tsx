@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import * as React from 'react';
+import SimpleKeyboard from './Keyboard';
 import { parseProps, changedProps } from '../services/UtilitiesReact';
 import 'simple-keyboard/build/css/index.css';
 import { KeyboardReactInterface } from '../interfaces';
-import Keyboard from 'simple-keyboard/build/index.modern';
 
 const KeyboardReact = (props: KeyboardReactInterface['options']) => {
   const cssClass = props.baseClass || 'react-simple-keyboard';
@@ -20,13 +19,18 @@ const KeyboardReact = (props: KeyboardReactInterface['options']) => {
      */
     if (!initRef.current) {
       initRef.current = true;
+
       parsedProps.debug && console.log('ReactSimpleKeyboard: Init');
+
       const targetElem = targetElemRef.current as HTMLDivElement;
-      const targetClass = `.${cssClass}`;
-      keyboardRef.current = new Keyboard(
+
+      const targetClass = `.${cssClass} ${props.id}`;
+
+      keyboardRef.current = new SimpleKeyboard(
         targetElem || targetClass,
         parsedProps,
       ) as KeyboardReactInterface;
+
       parsedProps.keyboardRef && parsedProps.keyboardRef(keyboardRef.current);
     }
 
