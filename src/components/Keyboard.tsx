@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { useRef, useState } from 'react';
 import ReactKeyboard from './ReactKeyboard/ReactKeyboard';
-import * as Hangul from 'hangul-js';
+import Hangul from 'hangul-js';
 import { KeyboardOptions, KeyboardReactInterface } from 'lib/@types';
 
 let buttonArray: Array<string> = [];
@@ -13,7 +12,7 @@ interface CustomKeyboardOptions extends KeyboardOptions {
   defaultText?: string;
 }
 
-const KeyboardHangul = ({
+const Keyboard = ({
   defaultText,
   getText,
   layout,
@@ -136,4 +135,4 @@ const KeyboardHangul = ({
   );
 };
 
-export default KeyboardHangul;
+export default Keyboard;
