@@ -1,6 +1,6 @@
 {
   "name": "@dev_imlab/react-hangul-keyboard",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "React Virtual Keyboard Korean, English Supported.",
   "keywords": [
     "react",
