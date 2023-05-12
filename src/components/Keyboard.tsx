@@ -1,27 +1,33 @@
-import Hangul from 'hangul-js';
+import * as React from 'react';
 import { useRef, useState } from 'react';
-import { KeyboardOptions, KeyboardReactInterface } from '../lib/@types';
 import ReactKeyboard from './ReactKeyboard/ReactKeyboard';
+import * as Hangul from 'hangul-js';
+import { KeyboardOptions, KeyboardReactInterface } from 'lib/@types';
 
-const buttonArray: Array<string> = [];
+let buttonArray: Array<string> = [];
 let inputText = '';
 
 interface CustomKeyboardOptions extends KeyboardOptions {
   getText: (text: string) => void;
+  language?: string;
+  defaultText?: string;
 }
 
-const Keyboard = ({
-  layout,
-  display,
-  tabCharOnTab,
-  newLineOnEnter,
-  debug,
+const KeyboardHangul = ({
+  defaultText,
   getText,
+  layout,
+  language: languageProp,
+  layoutName: layoutNameProp,
+  display,
+  debug,
 }: CustomKeyboardOptions) => {
-  const [input, setInput] = useState<string>();
-  const [layoutName, setLayoutName] = useState<string>('default');
-  const [language, setLanguage] = useState<string>('default');
-  const [buttonTheme, setButtonTheme] = useState([]);
+  const [input, setInput] = useState<string>(defaultText ?? '');
+
+  const [layoutName, setLayoutName] = useState<string>(
+    layoutNameProp ?? 'default',
+  );
+  const [language, setLanguage] = useState<string>(languageProp ?? 'default');
   const keyboard = useRef<KeyboardReactInterface | null>(null);
 
   const onChange = (syllable: string) => {
@@ -37,6 +43,10 @@ const Keyboard = ({
   };
 
   const onKeyPress = (button: string) => {
+    if (defaultText) {
+      buttonArray = [...input.split('')];
+    }
+
     if (
       ![
         '{shift}',
@@ -60,6 +70,7 @@ const Keyboard = ({
     }
 
     inputText = Hangul.assemble(buttonArray);
+
     getText(inputText);
 
     if (button === '{shift}') handleShiftButton();
@@ -112,7 +123,7 @@ const Keyboard = ({
 
   return (
     <ReactKeyboard
-      stateToIgnore={input}
+      defaultValue={defaultText}
       keyboardRef={(r: any) => (keyboard.current = r)}
       onChange={onChange}
       onKeyPress={onKeyPress}
@@ -120,13 +131,9 @@ const Keyboard = ({
       display={display || defaultDisplay}
       layoutName={layoutName}
       language={language}
-      buttonTheme={buttonTheme}
-      physicalKeyboardHighlight
-      tabCharOnTab={tabCharOnTab} // tab 시 간격 처리
-      newLineOnEnter={newLineOnEnter} // enter 시 줄 바꿈
       debug={debug} // debug mode
     />
   );
 };
 
-export default Keyboard;
+export default KeyboardHangul;
