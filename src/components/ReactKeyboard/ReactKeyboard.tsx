@@ -18,7 +18,10 @@ const ReactKeyboard: typeof KeyboardReact = props => {
         initRef.current = true;
         // @ts-ignore
         keyboardRef.current = new Keyboard(`.${cssClass}`, parsedProps);
+
         parsedProps.keyboardRef && parsedProps.keyboardRef(keyboardRef.current);
+
+        keyboardRef.current?.setInput(props.defaultValue);
       }
 
       const updatedProps = changedProps(previousProps.current, parsedProps);
